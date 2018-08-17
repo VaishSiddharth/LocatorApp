@@ -23,6 +23,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -44,7 +50,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
  * For an example that shows location updates using the Fused Location Provider API, see
  * https://github.com/googlesamples/android-play-location/tree/master/LocationUpdates.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -52,8 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String ADDRESS_REQUESTED_KEY = "address-request-pending";
     private static final String LOCATION_ADDRESS_KEY = "location-address";
-    private double lat;
-    private double lon;
+    public double lat;
+    public double lon;
+    public GoogleMap mgoogleMap;
 
     /**
      * Provides access to the Fused Location Provider API.
@@ -100,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         mResultReceiver = new AddressResultReceiver(new Handler());
 
@@ -113,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         updateValuesFromBundle(savedInstanceState);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFetchAddressButton.performClick();
 
         updateUIWidgets();
     }
@@ -226,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void displayAddressOutput() {
         mLocationAddressTextView.setText(mAddressOutput);
+
     }
 
     /**
@@ -265,7 +277,6 @@ public class MainActivity extends AppCompatActivity {
         AddressResultReceiver(Handler handler) {
             super(handler);
         }
-
         /**
          *  Receives data sent from FetchAddressIntentService and updates the UI in MainActivity.
          */
@@ -276,6 +287,7 @@ public class MainActivity extends AppCompatActivity {
             mAddressOutput = resultData.getString(Constants.RESULT_DATA_KEY);
             lat=resultData.getDouble("Latitude");
             lon=resultData.getDouble("Longitude");
+            onMapReady(mgoogleMap);
             displayAddressOutput();
 
             // Show a toast message if an address was found.
@@ -287,6 +299,17 @@ public class MainActivity extends AppCompatActivity {
             mAddressRequested = false;
             updateUIWidgets();
         }
+    }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        // Add a marker in Sydney, Australia,
+        // and move the map's camera to the same location.
+        mgoogleMap=googleMap;
+        LatLng curLoc = new LatLng(lat, lon);
+        googleMap.addMarker(new MarkerOptions().position(curLoc)
+                .title(mAddressOutput));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(curLoc));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(curLoc, 15.0f));
     }
 
     /**
