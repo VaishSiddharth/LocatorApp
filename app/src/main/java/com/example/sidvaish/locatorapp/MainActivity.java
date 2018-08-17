@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String ADDRESS_REQUESTED_KEY = "address-request-pending";
     private static final String LOCATION_ADDRESS_KEY = "location-address";
+    private double lat;
+    private double lon;
 
     /**
      * Provides access to the Fused Location Provider API.
@@ -272,6 +274,8 @@ public class MainActivity extends AppCompatActivity {
 
             // Display the address string or an error message sent from the intent service.
             mAddressOutput = resultData.getString(Constants.RESULT_DATA_KEY);
+            lat=resultData.getDouble("Latitude");
+            lon=resultData.getDouble("Longitude");
             displayAddressOutput();
 
             // Show a toast message if an address was found.

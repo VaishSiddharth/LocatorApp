@@ -1,5 +1,5 @@
 
 <resources>
-    <style name="Theme.Base" parent="Theme.AppCompat.Light">
+    <style name="Theme.Base" parent="Base.Theme.AppCompat.Light">
     </style>
 </resources>
