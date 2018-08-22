@@ -18,4 +18,10 @@ public class LaunchActivity extends AppCompatActivity{
         Intent intent = new Intent(LaunchActivity.this, MainActivity.class);
         startActivity(intent);
     }
+
+    public void place(View view)
+    {
+        Intent intent = new Intent(LaunchActivity.this, PlacesActivity.class);
+        startActivity(intent);
+    }
 }

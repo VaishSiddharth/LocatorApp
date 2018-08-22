@@ -21,8 +21,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -60,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final String LOCATION_ADDRESS_KEY = "location-address";
     public double lat;
     public double lon;
+    public double latitude;
+    public double longitude;
     public GoogleMap mgoogleMap;
 
     /**
@@ -110,6 +116,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        final PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                // TODO: Get info about the selected place.
+                //Log.i(TAG, "Place: " + place.getName());
+                latitude=place.getLatLng().latitude;
+                longitude=place.getLatLng().longitude;
+                Log.d("lat" , String.valueOf(latitude));
+                Log.d("long" , String.valueOf(longitude));
+                onMapReady(mgoogleMap);
+
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                //Log.i(TAG, "An error occurred: " + status);
+            }
+        });
 
         mResultReceiver = new AddressResultReceiver(new Handler());
 
@@ -287,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mAddressOutput = resultData.getString(Constants.RESULT_DATA_KEY);
             lat=resultData.getDouble("Latitude");
             lon=resultData.getDouble("Longitude");
-            onMapReady(mgoogleMap);
+            //onMapReady(mgoogleMap);
             displayAddressOutput();
 
             // Show a toast message if an address was found.
@@ -305,7 +333,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Add a marker in Sydney, Australia,
         // and move the map's camera to the same location.
         mgoogleMap=googleMap;
-        LatLng curLoc = new LatLng(lat, lon);
+        LatLng curLoc = new LatLng(latitude, longitude);
         googleMap.addMarker(new MarkerOptions().position(curLoc)
                 .title(mAddressOutput));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(curLoc));
