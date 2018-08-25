@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 public class LaunchActivity extends AppCompatActivity{
 
@@ -11,6 +12,7 @@ public class LaunchActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
+        Toast.makeText(this, "display", Toast.LENGTH_SHORT).show();
     }
 
     public void maps(View view)
