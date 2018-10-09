@@ -14,8 +14,16 @@
         android:id="@+id/fetch_address_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/fetch_address"
-        android:onClick="fetchAddressButtonHandler" />
+        android:layout_alignBaseline="@+id/location_address_view"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_toStartOf="@+id/progress_bar"
+        android:layout_toLeftOf="@+id/progress_bar"
+        android:layout_toEndOf="@+id/location_address_view"
+        android:onClick="fetchAddressButtonHandler"
+        android:text="@string/fetch_address" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
