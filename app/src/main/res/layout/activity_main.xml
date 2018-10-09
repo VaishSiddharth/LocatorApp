@@ -14,8 +14,10 @@
         android:id="@+id/fetch_address_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/fetch_address"
-        android:onClick="fetchAddressButtonHandler" />
+        android:layout_alignBaseline="@+id/location_address_view"
+        android:layout_toEndOf="@+id/location_address_view"
+        android:onClick="fetchAddressButtonHandler"
+        android:text="@string/fetch_address" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -32,4 +34,18 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/text_margin_top"
         android:textSize="@dimen/default_text_size" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="122dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/fetch_address_button"
+        android:layout_alignEnd="@+id/fetch_address_button"
+        android:layout_alignRight="@+id/fetch_address_button"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginRight="6dp"
+        android:text="Get your address" />
 </RelativeLayout>
