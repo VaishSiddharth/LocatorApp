@@ -60,7 +60,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="46dp"
         android:layout_toEndOf="@+id/location_address_view"
-        android:text="Get address" />
+        android:text="Get your address" />
 
     <Button
         android:id="@+id/button"
