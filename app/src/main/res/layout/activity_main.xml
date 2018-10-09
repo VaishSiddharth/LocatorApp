@@ -40,4 +40,15 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/text_margin_top"
         android:textSize="@dimen/default_text_size" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/location_address_view"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="76dp"
+        android:layout_marginRight="76dp"
+        android:text="Switch" />
 </RelativeLayout>
